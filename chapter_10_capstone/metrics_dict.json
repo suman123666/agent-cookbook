@@ -1,0 +1,94 @@
+[
+  {
+    "term": "ROI",
+    "definition": "投放回报率 = GMV ÷ 投放费用",
+    "formula": "GMV ÷ 投放费",
+    "sql_template": "★★★ 公司统一口径：「宽松口径」（business-approved）\n\n口径定义：\n  分母 = 时间窗内【新启的】campaign 总开销\n  分子 = 时间窗内【所有达人渠道订单】GMV（不限制 campaign 启动时间）\n\n这样能反映「达人渠道当下健康度」，含老 campaign 持续带货的回报。\n\n★ 时间过滤铁律：\n  - 分母（spend）：用 campaigns.start_date BETWEEN\n  - 分子（gmv）：用 orders.order_date BETWEEN，★ 不要用 campaigns 的时间过滤 ★\n  - JOIN campaigns 只是为了拿 platform 字段，不要写 c.start_date BETWEEN\n\n标准示例（最近一周抖音 ROI）：\n\nWITH spend AS (\n  -- 分母：本周新启抖音 campaign 总开销\n  SELECT SUM(cost) AS total FROM campaigns\n  WHERE platform = '抖音'\n    AND start_date BETWEEN '2026-05-27' AND '2026-06-03'\n),\ngmv AS (\n  -- 分子：本周所有抖音达人渠道订单 GMV（不限 campaign 启动时间！）\n  SELECT SUM(o.amount) AS total\n  FROM orders o\n  JOIN campaigns c ON o.source_campaign_id = c.id\n  WHERE c.platform = '抖音'\n    AND o.order_date BETWEEN '2026-05-27' AND '2026-06-03'\n    AND o.source_type = '达人'\n)\nSELECT gmv.total / spend.total AS roi FROM gmv, spend;",
+    "aliases": ["回报率", "投资回报", "投产比", "投放回报"]
+  },
+  {
+    "term": "性价比",
+    "definition": "考虑退货后的真实回报 = (GMV - 退款) ÷ 投放费用",
+    "formula": "(GMV - 退款) ÷ 投放费",
+    "sql_template": "★ 同样必须用 CTE 分开算：\n\nWITH spend AS (\n  SELECT SUM(cost) AS total FROM campaigns WHERE {条件}\n),\nnet_gmv AS (\n  SELECT SUM(o.amount) - COALESCE(SUM(r.refund_amount), 0) AS total\n  FROM orders o\n  JOIN campaigns c ON o.source_campaign_id = c.id\n  LEFT JOIN refunds r ON r.order_id = o.id\n  WHERE {条件} AND o.source_type = '达人'\n)\nSELECT net_gmv.total / spend.total AS 性价比 FROM net_gmv, spend;",
+    "aliases": ["真实ROI", "净回报", "实际回报"]
+  },
+  {
+    "term": "GMV",
+    "definition": "成交总额（不扣退款，订单金额合计）",
+    "formula": "SUM(orders.amount)",
+    "aliases": ["销售额", "成交额", "交易额", "销售量"]
+  },
+  {
+    "term": "销售量",
+    "definition": "完成的订单数（不含已退款）",
+    "formula": "COUNT(orders where status != '已退款')",
+    "aliases": ["销量", "成交量", "订单数"]
+  },
+  {
+    "term": "退货率",
+    "definition": "退款订单数 ÷ 总订单数 × 100%",
+    "formula": "SUM(CASE WHEN status='已退款' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)",
+    "aliases": ["退款率"]
+  },
+  {
+    "term": "头部主播",
+    "definition": "粉丝量 > 100 万的主播",
+    "formula": "follower_count > 1000000  或  tier = '头部'",
+    "aliases": ["大KOL", "头部"]
+  },
+  {
+    "term": "腰部主播",
+    "definition": "粉丝量 10-100 万的主播",
+    "formula": "follower_count BETWEEN 100000 AND 1000000  或  tier = '腰部'",
+    "aliases": ["中腰部", "腰部"]
+  },
+  {
+    "term": "尾部主播",
+    "definition": "粉丝量 < 10 万的主播",
+    "formula": "follower_count < 100000  或  tier = '尾部'",
+    "aliases": ["小KOC", "尾部"]
+  },
+  {
+    "term": "最近一周",
+    "definition": "今天往前推 7 天（含今天）。今天 = 2026-06-03",
+    "formula": "order_date BETWEEN '2026-05-27' AND '2026-06-03'",
+    "aliases": ["上周", "最近7天", "近7天", "过去一周"]
+  },
+  {
+    "term": "最近一个月",
+    "definition": "今天往前推 30 天（含今天）。今天 = 2026-06-03",
+    "formula": "order_date BETWEEN '2026-05-04' AND '2026-06-03'",
+    "aliases": ["最近30天", "近一月", "上月", "过去一个月"]
+  },
+  {
+    "term": "这个月",
+    "definition": "2026 年 6 月（自然月）",
+    "formula": "order_date BETWEEN '2026-06-01' AND '2026-06-03'",
+    "aliases": ["本月", "当月"]
+  },
+  {
+    "term": "618期间",
+    "definition": "5月20日至6月20日（电商大促周期）",
+    "formula": "order_date BETWEEN '2026-05-20' AND '2026-06-20'",
+    "aliases": ["618", "618大促"]
+  },
+  {
+    "term": "平时",
+    "definition": "非大促期间，即 618 / 双11 / 年货节之外的日子",
+    "formula": "campaigns.period = '日常'",
+    "aliases": ["日常", "非大促"]
+  },
+  {
+    "term": "直播带货",
+    "definition": "form = '直播' 形式的投放带来的订单",
+    "formula": "campaigns.form = '直播'",
+    "aliases": ["直播", "直播投放"]
+  },
+  {
+    "term": "投放",
+    "definition": "campaigns 表中的一次具体合作记录，含费用 + 时段 + 形式",
+    "formula": "SELECT * FROM campaigns",
+    "aliases": ["投放活动", "合作"]
+  }
+]

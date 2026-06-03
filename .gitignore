@@ -1,6 +1,42 @@
+# ─── 环境变量 / 密钥（绝对不能提交）───
 .env
-.venv/
+.env.local
+.env.*.local
+
+# ─── Python 编译产物 ───
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.egg-info/
+build/
+dist/
+
+# ─── 虚拟环境 / 锁文件 ───
+.venv/
+venv/
 .python-version
 uv.lock
+
+# ─── 长期记忆 / 持久状态（每个学习者自己产生）───
+memory.json
+
+# ─── 数据库 / 大文件（学习者自己生成）───
+**/chroma_db/
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+chapter_*/data/
+
+# ─── IDE / 系统文件 ───
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ─── 日志 / 临时 ───
+*.log
+*.tmp
+.cache/

@@ -276,3 +276,11 @@ chapter_05_rag/
 综合题 → 1 次 search + top_k=5 → 整合多 chunk
 闲聊  → 0 次 search → 直接回答 + 优雅说明边界
 ```
+
+
+---
+
+◀ 上一章：[第 4 章 · 规划与反思](../chapter_04_planning_reflection/NOTES.md)
+▶ 下一章：[第 6 章 · 框架进阶 LangChain + LangGraph](../chapter_06_langchain/NOTES.md)
+
+🏠 [回到课程首页](../README.md)

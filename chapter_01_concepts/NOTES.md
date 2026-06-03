@@ -106,3 +106,10 @@ Agent 的三大代价：
 - Anthropic 《Building Effective Agents》（必读）
 - Anthropic 《Effective context engineering for AI agents》
 - Lilian Weng 《LLM Powered Autonomous Agents》
+
+
+---
+
+▶ 下一章：[第 2 章 · 最小 Agent](../chapter_02_minimal_agent/NOTES.md)
+
+🏠 [回到课程首页](../README.md)

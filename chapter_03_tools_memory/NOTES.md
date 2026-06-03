@@ -214,9 +214,9 @@ Think tool        =  模型在「Agent 循环里」主动调一个 no-op 工具�
 ## Claude Code 的实际架构
 
 ```
-C:\Users\suman\.claude\
+~/.claude/                        ← Windows 是 C:\Users\<你的用户名>\.claude\
 ├── CLAUDE.md                    ← 用户级显式指令（跨项目）
-└── projects\<project>\memory\
+└── projects/<project>/memory/
     ├── MEMORY.md                ← 索引（每次必加载，前 200 行）
     ├── user_*.md                ← 用户档案
     ├── feedback_*.md            ← 偏好与反馈
@@ -324,3 +324,11 @@ chapter_03_tools_memory\
 - `chapter_03_tools_memory/tools.py` —— 5 工具集（文件 + save_memory + think）
 - `chapter_03_tools_memory/agent.py` —— 交互式 agent，整合三种记忆
 - `memory.json` —— 跨会话持久化数据（项目根）
+
+
+---
+
+◀ 上一章：[第 2 章 · 最小 Agent](../chapter_02_minimal_agent/NOTES.md)
+▶ 下一章：[第 4 章 · 规划与反思](../chapter_04_planning_reflection/NOTES.md)
+
+🏠 [回到课程首页](../README.md)

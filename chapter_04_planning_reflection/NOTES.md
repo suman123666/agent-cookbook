@@ -286,3 +286,11 @@ Reflect: Round 1 发现问题 → 修订 → Round 2 仍有问题 → 达上限
 ```
 
 未 PASS ≠ 失败——亲眼看到 Reflection 的边界，比成功 PASS 更有教学价值。
+
+
+---
+
+◀ 上一章：[第 3 章 · 工具与记忆](../chapter_03_tools_memory/NOTES.md)
+▶ 下一章：[第 5 章 · RAG 与知识增强](../chapter_05_rag/NOTES.md)
+
+🏠 [回到课程首页](../README.md)

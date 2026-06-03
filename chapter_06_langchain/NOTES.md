@@ -232,3 +232,11 @@ agent.invoke(None, config)            # 传 None = 从断点恢复
 - LangGraph 目前是"读懂"，未"独立写"
 - 后续章节穿插「30 秒小动作」保持手感
 - 第 10 章综合项目务必用户主导编码（老师当教练）
+
+
+---
+
+◀ 上一章：[第 5 章 · RAG 与知识增强](../chapter_05_rag/NOTES.md)
+▶ 下一章：[第 7 章 · 多 Agent 系统](../chapter_07_multi_agent/NOTES.md)
+
+🏠 [回到课程首页](../README.md)

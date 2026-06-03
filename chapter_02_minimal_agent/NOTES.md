@@ -213,3 +213,11 @@ T = 2.0   │ 概率分布被压扁，更随机
 第3轮: write_file        → 写入汇总
 第4轮: finish_reason=stop → 一句话收尾
 ```
+
+
+---
+
+◀ 上一章：[第 1 章 · 认知地基](../chapter_01_concepts/NOTES.md)
+▶ 下一章：[第 3 章 · 工具与记忆](../chapter_03_tools_memory/NOTES.md)
+
+🏠 [回到课程首页](../README.md)
